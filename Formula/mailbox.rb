@@ -3,7 +3,7 @@
 class Mailbox < Formula
   desc "Wake idle coding agents on real-world events instead of polling"
   homepage "https://github.com/mikey-relevanceai/agent-mailbox"
-  version "0.1.1"
+  version "0.2.0"
   license "MIT"
 
   # The github-pr adapter reaches GitHub by shelling out to `gh`, and a missing
@@ -15,26 +15,27 @@ class Mailbox < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/mikey-relevanceai/agent-mailbox/releases/download/v0.1.1/mailbox-0.1.1-aarch64-apple-darwin.tar.gz"
-      sha256 "d36d0d6ba7423b04d77d992372c083e0394dd5236cea344a13aa3fd120c05b0b"
+      url "https://github.com/mikey-relevanceai/agent-mailbox/releases/download/v0.2.0/mailbox-0.2.0-aarch64-apple-darwin.tar.gz"
+      sha256 "d7d87cea176a4f5ed5b673a57df2de5bc2acad54bb58ed0b6bf53725ffaf7344"
     end
     on_intel do
-      url "https://github.com/mikey-relevanceai/agent-mailbox/releases/download/v0.1.1/mailbox-0.1.1-x86_64-apple-darwin.tar.gz"
-      sha256 "15dcd7ed9946dfd1cc44ba102b2c2d678726c2cae096b0ae423a98a2640a8d03"
+      url "https://github.com/mikey-relevanceai/agent-mailbox/releases/download/v0.2.0/mailbox-0.2.0-x86_64-apple-darwin.tar.gz"
+      sha256 "244b06a2ae562ca9c78e7aafff700c5d57e244db82083cbbdea4b463627ee7a4"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/mikey-relevanceai/agent-mailbox/releases/download/v0.1.1/mailbox-0.1.1-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "718d0db34cf83860f570a37dbbd761661abf4e6a4da2229e11c043c4ace042e5"
+      url "https://github.com/mikey-relevanceai/agent-mailbox/releases/download/v0.2.0/mailbox-0.2.0-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "d708fe03c65fbab8b9160d19e51bc18442a311fd954bcedec5c5660c6fdcc730"
     end
   end
 
   def install
-    # All three side by side. The bridge finds an adapter by looking next to its
+    # All of them side by side. The bridge finds an adapter by looking next to its
     # own executable first, so co-location is the contract, not a convenience.
-    bin.install "mailbox", "mailbox-stub-adapter", "mailbox-github-pr-adapter"
+    bin.install "mailbox", "mailbox-stub-adapter", "mailbox-github-pr-adapter",
+                "mailbox-slack-adapter"
     doc.install "README.md"
   end
 
@@ -70,5 +71,6 @@ class Mailbox < Formula
     # above and still fail the first time anyone ran `mailbox watch`.
     assert_path_exists bin/"mailbox-stub-adapter"
     assert_path_exists bin/"mailbox-github-pr-adapter"
+    assert_path_exists bin/"mailbox-slack-adapter"
   end
 end
